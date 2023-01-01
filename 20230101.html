@@ -1,237 +1,552 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>20230101.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
-# 紀要論文のメタデータ整備及びオープンアクセス
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
 
-## 現状
-### 美濃加茂市民ミュージアム　CiNii検索結果
-- 18件がヒット
-- 15件は全国移籍騒乱登録データ、登録日は2022−07−20
-- 3件は、他の論文名の被引用文献
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
 
-https://cir.nii.ac.jp/articles?publicationTitle=美濃加茂市民ミュージアム&count=100&sortorder=0
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
 
->研究ノート 大矢峻嶺 はがき、封筒について
->
->講演録 逍遥と『早稲田文学』が目指したもの
->
->「礼物軌式」にみる「枝柿」「美濃柿」「甘干柿」について
->
->逍遙と『早稲田文学』が目指したもの
->
->夏休みの科学作品・社会科作品における博物館の利用について
->
->中山道太田宿の研究 3
->
->尾崎遺跡における古墳時代後期の須恵器 いわゆる美濃系蓋坏を中心として（尾崎遺跡発掘調査報告書 補遺）
->
->美濃加茂市に生息する天然記念物『ネコギギ』について 鑑賞教材としてのアート・ゲームの作成
->
->天明期以後における「太田の渡し」の渡河地点の変遷について
->
->美濃加茂市に生息する天然記念物『ネコギギ』について 川浦川におけるネコギギとの出会い
->
->大矢峻嶺 制作年代について 落款印章の調査から
->
->美濃加茂市に生息する天然記念物『ネコギギ』について 美濃加茂市の文化財保護行政における天然記念物ネコギギの保護経緯と現状
->
->中山道太田宿の研究 2
->
->美濃加茂市に生息する天然記念物『ネコギギ』について 美濃加茂市における天然記念物ネコギギの生態研究と保全
->
->敗戦直後の混乱と津田左右吉の『皇室論』
->
->美濃加茂市に生息する天然記念物『ネコギギ』について アート・ゲームによる鑑賞活動の実践
->
->岐阜県美濃加茂盆地の下部中新統瑞浪層群のフィッション トラック年代
->
->岐阜県美濃加茂盆地の下部中新統 瑞浪層群のフィッション トラック年代
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
 
-### 参考　CiNii
-https://support.nii.ac.jp/ja/cir/manual_outline
-> CiNii Researchでは文献だけでなく、外部連携機関、機関リポジトリ等の研究データ、KAKENの研究プロジェクト情報などを含めて、シンプルなインターフェースから気軽に横断検索することができます。
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
 
-## 全国遺跡報告総覧を使う方法
+body.showEditorSelection .code-line {
+	position: relative;
+}
 
-### 全国遺跡報告総覧内に「文化財論文ナビ」が公開：登録された論文情報はIRDBを通じたデータ連携によりCiNii Articlesで検索可能
-https://current.ndl.go.jp/car/43572
-> 2021年3月17日、奈良文化財研究所が、全国遺跡報告総覧内に「文化財論文ナビ」を公開したと発表しました。
-> 
-> 全国の博物館、埋蔵文化財センター等によりオンラインで入力された論文情報を、時代・種別・テーマごとに検索できるデータベースです。
-> 
-> 対象となる「論文」には、論文・報告・総括・資料紹介・事業報告等が含まれており、登録論文ごとにDOIが付与されます。
-> 
-> 「文化財論文ナビ」に入力されたデータは、全国遺跡報告総覧から国立情報学研究所（NII）の学術機関リポジトリデータベース（IRDB）を通じたデータ連携により、CiNii Articlesでも検索可能となると述べられています。
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
 
-### 参考　IRDB
-https://support.irdb.nii.ac.jp/ja
-> IRDB（学術機関リポジトリデータベース : Institutional Repositories DataBase）（https://irdb.nii.ac.jp/）は、日本国内の学術機関リポジトリに登録されたコンテンツのメタデータを収集し、提供するデータベース・サービスです。
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
 
-> b) 収集したメタデータの提供・公開
-> 
-> IRDBがハーベストしたメタデータは、外部のシステムに提供されています。
-> 
-> これにより、機関リポジトリに登録されたコンテンツが、各提供先のシステムで利用されるようになります。
-> 
-> CiNii（https://ci.nii.ac.jp/）やOpenAIREなどの学術情報プラットフォーム：　機関リポジトリに登録されたコンテンツを検索する際に利用されます。
-> 
-> 国立国会図書館：　博士論文本文の自動提出に利用されます。
-> 
-> ジャパンリンクセンター（JaLC）：　国立情報学研究所の取りまとめるJaLC準会員が、DOI（デジタルオブジェクト識別子）を登録する際に利用されます。
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
 
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
 
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
 
-### CA2008 紀要論文等の書誌情報流通における課題と「文化財論文ナビ」の取組
-https://current.ndl.go.jp/ca2008
-> 「博物館」は調査研究をする機関と定められている。
-> 
-> その成果として「紀要」を刊行し、国立国会図書館（NDL）に納本している。
-> 
-> ところが、収集した雑誌からNDLが作成している記事データベース「雑誌記事索引」(4)は、採録誌選定基準で「市町村刊行物」を対象外としてきた。
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
 
-> 5.1 「文化財論文ナビ」の構築
-> 
-> これらの課題を解決するために、まずは遺跡総覧の書誌データに目次情報を保持する項目を追加した。
-> 
-> これにより、目次情報をデータベースとして扱えるようになった。
-> 
-> そして、新たに遺跡総覧の一機能として論文データベース「文化財論文ナビ」を開発し、2021年3月に公開した(10)。
-> 
-> 各機関が遺跡総覧に報告書等の書誌データを登録する際に、論文情報も一緒に登録すれば文化財論文ナビから検索できるようになる上、各論文にはDOIも付与される。
-> 
-> 書誌情報のみを先に登録し、後から論文情報を追加することも可能である。2021年10月15日時点の論文データ件数は、1万7,571件に上る。
-> 
-> 遺跡報告内論考データベースのデータについては文化財論文ナビにデータ移行し統合を進めており、考古関連雑誌論文情報補完データベースのデータについても同様に統合を進める予定である。
-> 
-> ただし、上述した書誌備考欄記載の目次情報は、情報源として必要な情報が不足しているため、現時点では特に対応を予定していない。各機関によって文化財論文ナビへの登録が必要である。
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
 
-### 参考　DOI
-https://japanlinkcenter.org/top/doc/121120_1_takeda.pdf
->識別子(DOI name)からデジタルオブジェクトが存在するURIに変換するサービス
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
 
-### 全国遺跡報告総覧
-https://twitter.com/archaeology_arc/status/1589075111579377664?cxt=HHwWgIDTsaHZw40sAAAA
->全国遺跡報告総覧に登録された情報は各方面にメタデータが連携します。
->
->適切なメタデータであれば連携先で有効に活用される。
->
->せっかく内容がよくてもメタデータがイケてなかったら非常にもったいない。
->
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
 
-### 参加・登録手続
-https://sitereports.nabunken.go.jp/ja/abouts/participation
->文化財に関する刊行物等を発行している各種機関が主たる対象となります。
->
->また、自治体等から委託をうけて発掘調査報告書を発行している民間事業者のほか、周辺領域も含め文化財にかかる刊行物を発行している博物館や大学・学会・研究会等も参加・登録可能ですので、ぜひご検討ください。
->
->ご不明な点は事務局までお問い合わせください
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
 
-### 文化財論文登録マニュアル
-https://sitereports.nabunken.go.jp/files/statics/文化財論文登録マニュアル.pdf
->2 対象となる論文や報告類 総覧の文化財論文ナビは、埋蔵文化財に限らず建築・民俗・景観・指定品など文化財に関係する 論文等を幅広く登録することができます
->ただし，以下のものは除きます。
->
->○企業の広報や特定企業による技術紹介等に関連するもの。
->
-> ○文化と一切関係のないもの
-> 
-> なお論文タイトルや著者名などは、著作権対象外です。
-> 
-> 論文情報を登録するにあたって、著者 本人の許諾は不要です。
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
 
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
 
-### 参加・登録の流れ
-https://sitereports.nabunken.go.jp/ja/abouts/participation
-> 
-> 1.参加申込書の提出
-> 
-> 参加申込書（Wordファイル）に必要事項を記入の上、事務局宛にメール添付で送付ください。
-> 
-> ※過去に事務局等からIDの交付を受けている場合は新たに書類を提出していただく必要はありません。
-> 
-> ※担当者変更等でIDが分からなくなった場合は、事務局より再交付しますのでメールでお問い合わせください。
-> 
-> 
-> ＜申し込み・お問い合わせ＞
-> 全国遺跡報告総覧プロジェクト事務局（島根大学附属図書館／担当：矢田）
-> 
-> メールアドレス：rar@lib.shimane-u.ac.jp
-> 
-> 2.報告書の登録作業・公開
-> 
-> 登録マニュアルにそって、報告書データの登録をお願いします。事務局での代行登録は原則として行っていません。
+a {
+	text-decoration: none;
+}
 
-## その他
-### 美濃加茂市民ミュージアム紀要のISSN 
-NDLへの申請
-https://www.ndl.go.jp/jp/data/issn/index.html
+a:hover {
+	text-decoration: underline;
+}
 
-> ISSN (International Standard Serial Number: 国際標準逐次刊行物番号) は、逐次刊行物*を識別するための国際的なコードです（→「逐次刊行物とISSN」）。
-> 
-> ISSNは個々の逐次刊行物と1対1で結びつく固有の番号で、世界規模で使用されています。
-> 
-> ISSNは、国際規格（ISO 3297）と、その対応規格である日本産業規格（JIS X 0306）により定められています。
-> 
-> 国立国会図書館（以下、当館）は、日本で唯一の法定納本図書館として網羅的に国内の逐次刊行物を収集していることから、ISSN日本センター（→「ISSN日本センターについて」）としての活動を行っています。
-> 
-> 2021年末時点のISSN国際センターにおけるISSN登録総数は、220万件を超えており、このうちISSN日本センターで所管するものは約4万7千件です。
-> 
-> * 逐次刊行物とは以下の条件を満たす出版物のことです。
-> 
-> 毎号同じタイトルで発行される
-> 
-> 巻号や年月等、順序付けを示す表示がある
-> 
-> 終わりを定めずに継続して発行される
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
 
->ISSN登録の概要をご確認いただき、刊行物がISSN登録の要件を満たしている場合には、次のISSN登録申請フォームからISSNを申請してください。
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
 
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
 
-### 公開の別の方法
-- J-Stageによる方法　瑞浪市化石博物館研究報告
-https://www.jstage.jst.go.jp/browse/bmfm/-char/ja
+h1, h2, h3 {
+	font-weight: normal;
+}
 
-- 資料公開作業の流れ
-https://www.jstage.jst.go.jp/static/pages/ForPublishers/TAB1/-char/ja
+table {
+	border-collapse: collapse;
+}
 
-- 博物館の紀要でJ-Stageを利用
-https://www.jstage.jst.go.jp/journal/publisher/-char/ja?indexKind=&indexCd=&strtWdIndexCd=&sortby=1&from=0&showRecords=20&hkkuOrgnMi=博物館
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
 
-- J-Stage、メタデータのみでは登録できない。
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
 
-### 著作権上の取り扱い
-『瑞浪市化石博物館研究報告』の電子データ公開に伴う 著作権の取り扱いに関する告知(お願い)
-https://www.city.mizunami.lg.jp/_res/projects/default_project/_page_/001/006/757/bmfm_copyright.pdf
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
 
-### 市民ミュージアム刊行の遺跡発掘報告書の登録
-全国遺跡報告総覧への登録
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
 
-### researchmap
-https://researchmap.jp/public/about
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
 
-> researchmapは、研究者が業績を管理・発信できるようにすることを目的とした、データベース型研究者総覧です。
-> 
-> 簡単な登録で自身の研究者サイトを作成することができ、研究成果として、論文、講演・口頭発表、書籍、産業財産権、Works（作品等）、社会貢献活動などの業績を管理し、発信することができます。また、研究コミュニティなど、様々なツールを研究活動に活用できます。
-> 
-> また、今回リリースしましたresearchmap.V2では、検索・入力のしやすさを考慮したデザインと利便性の向上を図りました。
-> 
-> レスポンシブなデザインで、利用デバイス（PC、タブレット、スマホ等）に最適化した画面を表示しています。
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
 
-- 学芸員の登録者、261名
-https://researchmap.jp/researchers?job=学芸員
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
 
-### 参考　ORCID
-https://researchmap.jp/public/about/orcid
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
 
-> ●ORCIDとは何か？
-> 
-> ORCID（Open Researcher and Contributor ID）または ORCID, Inc. は、学術関連の様々な利害関係者が集まって、研究者への識別子付与に取り組む国際的な組織です。
-> 
-> ORCIDが付与する研究者識別子は ORCID iD と呼ばれます。
-> 
-> 研究者は自らORCID iDを取得して、それに研究成果や活動履歴を結びつけることができます。
-> 
-> ORCID iDは、出版社をはじめ、研究機関、研究費助成団体、その他多くの学術情報サービスとの連携に使用されます。
+/** Theming */
 
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
 
-### 翻訳
-DeepL
-https://www.deepl.com/ja/translator
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%E7%B4%80%E8%A6%81%E8%AB%96%E6%96%87%E3%81%AE%E3%83%A1%E3%82%BF%E3%83%87%E3%83%BC%E3%82%BF%E6%95%B4%E5%82%99%E5%8F%8A%E3%81%B3%E3%82%AA%E3%83%BC%E3%83%97%E3%83%B3%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9">紀要論文のメタデータ整備及びオープンアクセス</h1>
+<h2 id="%E7%8F%BE%E7%8A%B6">現状</h2>
+<h3 id="%E7%BE%8E%E6%BF%83%E5%8A%A0%E8%8C%82%E5%B8%82%E6%B0%91%E3%83%9F%E3%83%A5%E3%83%BC%E3%82%B8%E3%82%A2%E3%83%A0-cinii%E6%A4%9C%E7%B4%A2%E7%B5%90%E6%9E%9C">美濃加茂市民ミュージアム　CiNii検索結果</h3>
+<ul>
+<li>18件がヒット</li>
+<li>15件は全国移籍騒乱登録データ、登録日は2022−07−20</li>
+<li>3件は、他の論文名の被引用文献</li>
+</ul>
+<p>https://cir.nii.ac.jp/articles?publicationTitle=美濃加茂市民ミュージアム&amp;count=100&amp;sortorder=0</p>
+<blockquote>
+<p>研究ノート 大矢峻嶺 はがき、封筒について</p>
+<p>講演録 逍遥と『早稲田文学』が目指したもの</p>
+<p>「礼物軌式」にみる「枝柿」「美濃柿」「甘干柿」について</p>
+<p>逍遙と『早稲田文学』が目指したもの</p>
+<p>夏休みの科学作品・社会科作品における博物館の利用について</p>
+<p>中山道太田宿の研究 3</p>
+<p>尾崎遺跡における古墳時代後期の須恵器 いわゆる美濃系蓋坏を中心として（尾崎遺跡発掘調査報告書 補遺）</p>
+<p>美濃加茂市に生息する天然記念物『ネコギギ』について 鑑賞教材としてのアート・ゲームの作成</p>
+<p>天明期以後における「太田の渡し」の渡河地点の変遷について</p>
+<p>美濃加茂市に生息する天然記念物『ネコギギ』について 川浦川におけるネコギギとの出会い</p>
+<p>大矢峻嶺 制作年代について 落款印章の調査から</p>
+<p>美濃加茂市に生息する天然記念物『ネコギギ』について 美濃加茂市の文化財保護行政における天然記念物ネコギギの保護経緯と現状</p>
+<p>中山道太田宿の研究 2</p>
+<p>美濃加茂市に生息する天然記念物『ネコギギ』について 美濃加茂市における天然記念物ネコギギの生態研究と保全</p>
+<p>敗戦直後の混乱と津田左右吉の『皇室論』</p>
+<p>美濃加茂市に生息する天然記念物『ネコギギ』について アート・ゲームによる鑑賞活動の実践</p>
+<p>岐阜県美濃加茂盆地の下部中新統瑞浪層群のフィッション トラック年代</p>
+<p>岐阜県美濃加茂盆地の下部中新統 瑞浪層群のフィッション トラック年代</p>
+</blockquote>
+<h3 id="%E5%8F%82%E8%80%83-cinii">参考　CiNii</h3>
+<p>https://support.nii.ac.jp/ja/cir/manual_outline</p>
+<blockquote>
+<p>CiNii Researchでは文献だけでなく、外部連携機関、機関リポジトリ等の研究データ、KAKENの研究プロジェクト情報などを含めて、シンプルなインターフェースから気軽に横断検索することができます。</p>
+</blockquote>
+<h2 id="%E5%85%A8%E5%9B%BD%E9%81%BA%E8%B7%A1%E5%A0%B1%E5%91%8A%E7%B7%8F%E8%A6%A7%E3%82%92%E4%BD%BF%E3%81%86%E6%96%B9%E6%B3%95">全国遺跡報告総覧を使う方法</h2>
+<h3 id="%E5%85%A8%E5%9B%BD%E9%81%BA%E8%B7%A1%E5%A0%B1%E5%91%8A%E7%B7%8F%E8%A6%A7%E5%86%85%E3%81%AB%E6%96%87%E5%8C%96%E8%B2%A1%E8%AB%96%E6%96%87%E3%83%8A%E3%83%93%E3%81%8C%E5%85%AC%E9%96%8B%E7%99%BB%E9%8C%B2%E3%81%95%E3%82%8C%E3%81%9F%E8%AB%96%E6%96%87%E6%83%85%E5%A0%B1%E3%81%AFirdb%E3%82%92%E9%80%9A%E3%81%98%E3%81%9F%E3%83%87%E3%83%BC%E3%82%BF%E9%80%A3%E6%90%BA%E3%81%AB%E3%82%88%E3%82%8Acinii-articles%E3%81%A7%E6%A4%9C%E7%B4%A2%E5%8F%AF%E8%83%BD">全国遺跡報告総覧内に「文化財論文ナビ」が公開：登録された論文情報はIRDBを通じたデータ連携によりCiNii Articlesで検索可能</h3>
+<p>https://current.ndl.go.jp/car/43572</p>
+<blockquote>
+<p>2021年3月17日、奈良文化財研究所が、全国遺跡報告総覧内に「文化財論文ナビ」を公開したと発表しました。</p>
+<p>全国の博物館、埋蔵文化財センター等によりオンラインで入力された論文情報を、時代・種別・テーマごとに検索できるデータベースです。</p>
+<p>対象となる「論文」には、論文・報告・総括・資料紹介・事業報告等が含まれており、登録論文ごとにDOIが付与されます。</p>
+<p>「文化財論文ナビ」に入力されたデータは、全国遺跡報告総覧から国立情報学研究所（NII）の学術機関リポジトリデータベース（IRDB）を通じたデータ連携により、CiNii Articlesでも検索可能となると述べられています。</p>
+</blockquote>
+<h3 id="%E5%8F%82%E8%80%83-irdb">参考　IRDB</h3>
+<p>https://support.irdb.nii.ac.jp/ja</p>
+<blockquote>
+<p>IRDB（学術機関リポジトリデータベース : Institutional Repositories DataBase）（https://irdb.nii.ac.jp/）は、日本国内の学術機関リポジトリに登録されたコンテンツのメタデータを収集し、提供するデータベース・サービスです。</p>
+</blockquote>
+<blockquote>
+<p>b) 収集したメタデータの提供・公開</p>
+<p>IRDBがハーベストしたメタデータは、外部のシステムに提供されています。</p>
+<p>これにより、機関リポジトリに登録されたコンテンツが、各提供先のシステムで利用されるようになります。</p>
+<p>CiNii（https://ci.nii.ac.jp/）やOpenAIREなどの学術情報プラットフォーム：　機関リポジトリに登録されたコンテンツを検索する際に利用されます。</p>
+<p>国立国会図書館：　博士論文本文の自動提出に利用されます。</p>
+<p>ジャパンリンクセンター（JaLC）：　国立情報学研究所の取りまとめるJaLC準会員が、DOI（デジタルオブジェクト識別子）を登録する際に利用されます。</p>
+</blockquote>
+<h3 id="ca2008-%E7%B4%80%E8%A6%81%E8%AB%96%E6%96%87%E7%AD%89%E3%81%AE%E6%9B%B8%E8%AA%8C%E6%83%85%E5%A0%B1%E6%B5%81%E9%80%9A%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E8%AA%B2%E9%A1%8C%E3%81%A8%E6%96%87%E5%8C%96%E8%B2%A1%E8%AB%96%E6%96%87%E3%83%8A%E3%83%93%E3%81%AE%E5%8F%96%E7%B5%84">CA2008 紀要論文等の書誌情報流通における課題と「文化財論文ナビ」の取組</h3>
+<p>https://current.ndl.go.jp/ca2008</p>
+<blockquote>
+<p>「博物館」は調査研究をする機関と定められている。</p>
+<p>その成果として「紀要」を刊行し、国立国会図書館（NDL）に納本している。</p>
+<p>ところが、収集した雑誌からNDLが作成している記事データベース「雑誌記事索引」(4)は、採録誌選定基準で「市町村刊行物」を対象外としてきた。</p>
+</blockquote>
+<blockquote>
+<p>5.1 「文化財論文ナビ」の構築</p>
+<p>これらの課題を解決するために、まずは遺跡総覧の書誌データに目次情報を保持する項目を追加した。</p>
+<p>これにより、目次情報をデータベースとして扱えるようになった。</p>
+<p>そして、新たに遺跡総覧の一機能として論文データベース「文化財論文ナビ」を開発し、2021年3月に公開した(10)。</p>
+<p>各機関が遺跡総覧に報告書等の書誌データを登録する際に、論文情報も一緒に登録すれば文化財論文ナビから検索できるようになる上、各論文にはDOIも付与される。</p>
+<p>書誌情報のみを先に登録し、後から論文情報を追加することも可能である。2021年10月15日時点の論文データ件数は、1万7,571件に上る。</p>
+<p>遺跡報告内論考データベースのデータについては文化財論文ナビにデータ移行し統合を進めており、考古関連雑誌論文情報補完データベースのデータについても同様に統合を進める予定である。</p>
+<p>ただし、上述した書誌備考欄記載の目次情報は、情報源として必要な情報が不足しているため、現時点では特に対応を予定していない。各機関によって文化財論文ナビへの登録が必要である。</p>
+</blockquote>
+<h3 id="%E5%8F%82%E8%80%83-doi">参考　DOI</h3>
+<p>https://japanlinkcenter.org/top/doc/121120_1_takeda.pdf</p>
+<blockquote>
+<p>識別子(DOI name)からデジタルオブジェクトが存在するURIに変換するサービス</p>
+</blockquote>
+<h3 id="%E5%85%A8%E5%9B%BD%E9%81%BA%E8%B7%A1%E5%A0%B1%E5%91%8A%E7%B7%8F%E8%A6%A7">全国遺跡報告総覧</h3>
+<p>https://twitter.com/archaeology_arc/status/1589075111579377664?cxt=HHwWgIDTsaHZw40sAAAA</p>
+<blockquote>
+<p>全国遺跡報告総覧に登録された情報は各方面にメタデータが連携します。</p>
+<p>適切なメタデータであれば連携先で有効に活用される。</p>
+<p>せっかく内容がよくてもメタデータがイケてなかったら非常にもったいない。</p>
+</blockquote>
+<h3 id="%E5%8F%82%E5%8A%A0%E3%83%BB%E7%99%BB%E9%8C%B2%E6%89%8B%E7%B6%9A">参加・登録手続</h3>
+<p>https://sitereports.nabunken.go.jp/ja/abouts/participation</p>
+<blockquote>
+<p>文化財に関する刊行物等を発行している各種機関が主たる対象となります。</p>
+<p>また、自治体等から委託をうけて発掘調査報告書を発行している民間事業者のほか、周辺領域も含め文化財にかかる刊行物を発行している博物館や大学・学会・研究会等も参加・登録可能ですので、ぜひご検討ください。</p>
+<p>ご不明な点は事務局までお問い合わせください</p>
+</blockquote>
+<h3 id="%E6%96%87%E5%8C%96%E8%B2%A1%E8%AB%96%E6%96%87%E7%99%BB%E9%8C%B2%E3%83%9E%E3%83%8B%E3%83%A5%E3%82%A2%E3%83%AB">文化財論文登録マニュアル</h3>
+<p>https://sitereports.nabunken.go.jp/files/statics/文化財論文登録マニュアル.pdf</p>
+<blockquote>
+<p>2 対象となる論文や報告類 総覧の文化財論文ナビは、埋蔵文化財に限らず建築・民俗・景観・指定品など文化財に関係する 論文等を幅広く登録することができます
+ただし，以下のものは除きます。</p>
+<p>○企業の広報や特定企業による技術紹介等に関連するもの。</p>
+<p>○文化と一切関係のないもの</p>
+<p>なお論文タイトルや著者名などは、著作権対象外です。</p>
+<p>論文情報を登録するにあたって、著者 本人の許諾は不要です。</p>
+</blockquote>
+<h3 id="%E5%8F%82%E5%8A%A0%E3%83%BB%E7%99%BB%E9%8C%B2%E3%81%AE%E6%B5%81%E3%82%8C">参加・登録の流れ</h3>
+<p>https://sitereports.nabunken.go.jp/ja/abouts/participation</p>
+<blockquote>
+<p>1.参加申込書の提出</p>
+<p>参加申込書（Wordファイル）に必要事項を記入の上、事務局宛にメール添付で送付ください。</p>
+<p>※過去に事務局等からIDの交付を受けている場合は新たに書類を提出していただく必要はありません。</p>
+<p>※担当者変更等でIDが分からなくなった場合は、事務局より再交付しますのでメールでお問い合わせください。</p>
+<p>＜申し込み・お問い合わせ＞
+全国遺跡報告総覧プロジェクト事務局（島根大学附属図書館／担当：矢田）</p>
+<p>メールアドレス：rar@lib.shimane-u.ac.jp</p>
+<p>2.報告書の登録作業・公開</p>
+<p>登録マニュアルにそって、報告書データの登録をお願いします。事務局での代行登録は原則として行っていません。</p>
+</blockquote>
+<h2 id="%E3%81%9D%E3%81%AE%E4%BB%96">その他</h2>
+<h3 id="%E7%BE%8E%E6%BF%83%E5%8A%A0%E8%8C%82%E5%B8%82%E6%B0%91%E3%83%9F%E3%83%A5%E3%83%BC%E3%82%B8%E3%82%A2%E3%83%A0%E7%B4%80%E8%A6%81%E3%81%AEissn">美濃加茂市民ミュージアム紀要のISSN</h3>
+<p>NDLへの申請
+https://www.ndl.go.jp/jp/data/issn/index.html</p>
+<blockquote>
+<p>ISSN (International Standard Serial Number: 国際標準逐次刊行物番号) は、逐次刊行物*を識別するための国際的なコードです（→「逐次刊行物とISSN」）。</p>
+<p>ISSNは個々の逐次刊行物と1対1で結びつく固有の番号で、世界規模で使用されています。</p>
+<p>ISSNは、国際規格（ISO 3297）と、その対応規格である日本産業規格（JIS X 0306）により定められています。</p>
+<p>国立国会図書館（以下、当館）は、日本で唯一の法定納本図書館として網羅的に国内の逐次刊行物を収集していることから、ISSN日本センター（→「ISSN日本センターについて」）としての活動を行っています。</p>
+<p>2021年末時点のISSN国際センターにおけるISSN登録総数は、220万件を超えており、このうちISSN日本センターで所管するものは約4万7千件です。</p>
+<ul>
+<li>逐次刊行物とは以下の条件を満たす出版物のことです。</li>
+</ul>
+<p>毎号同じタイトルで発行される</p>
+<p>巻号や年月等、順序付けを示す表示がある</p>
+<p>終わりを定めずに継続して発行される</p>
+</blockquote>
+<blockquote>
+<p>ISSN登録の概要をご確認いただき、刊行物がISSN登録の要件を満たしている場合には、次のISSN登録申請フォームからISSNを申請してください。</p>
+</blockquote>
+<h3 id="%E5%85%AC%E9%96%8B%E3%81%AE%E5%88%A5%E3%81%AE%E6%96%B9%E6%B3%95">公開の別の方法</h3>
+<ul>
+<li>
+<p>J-Stageによる方法　瑞浪市化石博物館研究報告
+https://www.jstage.jst.go.jp/browse/bmfm/-char/ja</p>
+</li>
+<li>
+<p>資料公開作業の流れ
+https://www.jstage.jst.go.jp/static/pages/ForPublishers/TAB1/-char/ja</p>
+</li>
+<li>
+<p>博物館の紀要でJ-Stageを利用
+https://www.jstage.jst.go.jp/journal/publisher/-char/ja?indexKind=&amp;indexCd=&amp;strtWdIndexCd=&amp;sortby=1&amp;from=0&amp;showRecords=20&amp;hkkuOrgnMi=博物館</p>
+</li>
+<li>
+<p>J-Stage、メタデータのみでは登録できない。</p>
+</li>
+</ul>
+<h3 id="%E8%91%97%E4%BD%9C%E6%A8%A9%E4%B8%8A%E3%81%AE%E5%8F%96%E3%82%8A%E6%89%B1%E3%81%84">著作権上の取り扱い</h3>
+<p>『瑞浪市化石博物館研究報告』の電子データ公開に伴う 著作権の取り扱いに関する告知(お願い)
+https://www.city.mizunami.lg.jp/_res/projects/default_project/<em>page</em>/001/006/757/bmfm_copyright.pdf</p>
+<h3 id="%E5%B8%82%E6%B0%91%E3%83%9F%E3%83%A5%E3%83%BC%E3%82%B8%E3%82%A2%E3%83%A0%E5%88%8A%E8%A1%8C%E3%81%AE%E9%81%BA%E8%B7%A1%E7%99%BA%E6%8E%98%E5%A0%B1%E5%91%8A%E6%9B%B8%E3%81%AE%E7%99%BB%E9%8C%B2">市民ミュージアム刊行の遺跡発掘報告書の登録</h3>
+<p>全国遺跡報告総覧への登録</p>
+<h3 id="researchmap">researchmap</h3>
+<p>https://researchmap.jp/public/about</p>
+<blockquote>
+<p>researchmapは、研究者が業績を管理・発信できるようにすることを目的とした、データベース型研究者総覧です。</p>
+<p>簡単な登録で自身の研究者サイトを作成することができ、研究成果として、論文、講演・口頭発表、書籍、産業財産権、Works（作品等）、社会貢献活動などの業績を管理し、発信することができます。また、研究コミュニティなど、様々なツールを研究活動に活用できます。</p>
+<p>また、今回リリースしましたresearchmap.V2では、検索・入力のしやすさを考慮したデザインと利便性の向上を図りました。</p>
+<p>レスポンシブなデザインで、利用デバイス（PC、タブレット、スマホ等）に最適化した画面を表示しています。</p>
+</blockquote>
+<ul>
+<li>学芸員の登録者、261名
+https://researchmap.jp/researchers?job=学芸員</li>
+</ul>
+<h3 id="%E5%8F%82%E8%80%83-orcid">参考　ORCID</h3>
+<p>https://researchmap.jp/public/about/orcid</p>
+<blockquote>
+<p>●ORCIDとは何か？</p>
+<p>ORCID（Open Researcher and Contributor ID）または ORCID, Inc. は、学術関連の様々な利害関係者が集まって、研究者への識別子付与に取り組む国際的な組織です。</p>
+<p>ORCIDが付与する研究者識別子は ORCID iD と呼ばれます。</p>
+<p>研究者は自らORCID iDを取得して、それに研究成果や活動履歴を結びつけることができます。</p>
+<p>ORCID iDは、出版社をはじめ、研究機関、研究費助成団体、その他多くの学術情報サービスとの連携に使用されます。</p>
+</blockquote>
+<h3 id="%E7%BF%BB%E8%A8%B3">翻訳</h3>
+<p>DeepL
+https://www.deepl.com/ja/translator</p>
+
+</body>
+</html>
